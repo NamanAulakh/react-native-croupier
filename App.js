@@ -48,7 +48,10 @@ export default class App extends React.Component {
 
   distributeCards(numberOfCardsToDistribute) {
     if (numberOfCardsToDistribute !== 0) {
-      const index = Math.ceil(Math.random() * this.state.cards.length - 1);
+      console.log(this.state.cards.length);
+
+      const index = Math.ceil((Math.random()) * (this.state.cards.length - 1));
+      console.log(numberOfCardsToDistribute, index);
 
       this.setState({
         cardsToDistribute: this.state.cardsToDistribute.concat([
@@ -67,14 +70,18 @@ export default class App extends React.Component {
 
   render() {
     const {
-      numberOfCardsToDistribute
-    } = this.state;
-
-    const {
       container,
       textField,
       button
     } = styles;
+
+    const {
+      numberOfCardsToDistribute,
+      cardsToDistribute,
+      cards
+    } = this.state;
+
+    console.log(cards, cardsToDistribute);
 
     return (
       <View style={container}>
