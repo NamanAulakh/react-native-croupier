@@ -1,0 +1,1 @@
+export const DISTRIBUTE_KING = 'DISTRIBUTE_KING';
