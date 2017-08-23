@@ -2,15 +2,14 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  upper: {
-    backgroundColor: 'green',
-    flex: 4,
+  lowerCards: {
+    flex: 1,
+    backgroundColor: 'blue',
     padding: 2
   },
-  upperContainer: {
+  lowerCardsContainer: {
     flex: 1,
-    backgroundColor: 'gray',
-    padding: 2,
-    flexDirection: 'row'
+    backgroundColor: 'green',
+    padding: 2
   }
 });
