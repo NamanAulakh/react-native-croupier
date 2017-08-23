@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   kings: {
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    flex: 1,
+    padding: 2
   },
 });
