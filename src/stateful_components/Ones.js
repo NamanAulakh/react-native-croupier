@@ -4,7 +4,7 @@ import {
   View
 } from 'react-native';
 import { connect } from 'react-redux';
-import * as onesStyles from '../styles/ones';
+import * as cardStyles from '../styles/card';
 
 class Ones extends Component {
   static propTypes = {
@@ -21,20 +21,35 @@ class Ones extends Component {
 
   render() {
     const {
-      ones
-    } = onesStyles.styles;
+      card,
+      numberOnTheCardStyles
+    } = cardStyles.styles;
+
+    const {
+      cards,
+    } = this.props;
 
     return(
-      <View style={ones}>
-        <Text>Ones</Text>
+      <View style={card}>
+        <Text style={numberOnTheCardStyles}>1</Text>
+        {
+          // cards.filter(item => item.numberOnTheCard === 1)
+          // .map((item, index) => {
+          //   return (
+          //     <View key={index}>
+          //       <Text style={{color: 'white'}}>{`${item.numberOnTheCard} of ${item.suit}`}</Text>
+          //     </View>
+          //   );
+          // })
+        }
       </View>
     );
   }
 }
 
-const mapStateToProps = () => {
+const mapStateToProps = (state) => {
   return {
-
+    cards: state.cards.data
   };
 };
 

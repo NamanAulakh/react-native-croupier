@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 
 import kings from './kings';
+import cards from './cards';
 
 const appReducer = combineReducers({
-  kings
+  kings,
+  cards
 });
 
 const rootReducer = (state, action) => {
