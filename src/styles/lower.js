@@ -3,8 +3,9 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   lower: {
-    backgroundColor: 'yellow',
     flex: 1,
-    padding: 2
+    backgroundColor: 'blue',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 });

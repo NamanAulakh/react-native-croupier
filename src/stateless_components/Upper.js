@@ -17,11 +17,7 @@ const Upper = ({
 
   return(
     <View style={upper}>
-      <View style={upperContainer}>
-        <Market/>
-
-        <LowerCards/>
-      </View>
+      <Text>Market</Text>
     </View>
   );
 };

@@ -35,23 +35,7 @@ class LowerCards extends Component {
 
     return(
       <View style={lowerCards}>
-        <View style={lowerCardsContainer}>
-          <Ones/>
-
-          <Twos/>
-
-          <Threes/>
-
-          <Fours/>
-
-          <Fives/>
-
-          <Sixes/>
-
-          <Sevens/>
-
-          <Eights/>
-        </View>
+        <Text>LowerCards</Text>
       </View>
     );
   }

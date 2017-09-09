@@ -15,7 +15,7 @@ const Lower = ({
 
   return(
     <View style={lower}>
-      <HighCards/>
+      <Text>Lower</Text>
     </View>
   );
 };
