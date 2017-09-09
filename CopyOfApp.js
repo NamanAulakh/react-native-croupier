@@ -21,6 +21,8 @@ export default class App extends React.Component {
     this.distributeCards = this.distributeCards.bind(this);
     this.generateCardsInitially = this.generateCardsInitially.bind(this);
     this.onChangeText = this.onChangeText.bind(this);
+    this.calculatePoints = this.calculatePoints.bind(this);
+    this.generateName = this.generateName.bind(this);
   }
 
   componentWillMount() {
@@ -37,7 +39,12 @@ export default class App extends React.Component {
       for (let j = 1; j <= 13; j++) {
         cards.push({
           suit: suits[i],
-          numberOnTheCard: j
+          value: j,
+          name: this.generateName(j),
+          location: null,
+          isClosed: false,
+          points: this.calculatePoints(suits[i], j),
+          isSelected: false
         });
       }
     }
@@ -45,6 +52,35 @@ export default class App extends React.Component {
     this.setState({
       cards
     });
+  }
+
+  calculatePoints(suit, value) {
+    if (suit !== 'spades' && value === 1)
+      return 1;
+
+    if (suit === 'diamonds' && value === 10)
+      return 2;
+
+    if (suit === 'spades')
+      return value;
+
+    return 0;
+  }
+
+  generateName(value) {
+    if (value === 1)
+      return 'A';
+
+    if (value === 11)
+      return 'J';
+
+    if (value === 12)
+      return 'Q';
+
+    if (value === 13)
+      return 'K';
+
+    return value;
   }
 
   distributeCards(numberOfCardsToDistribute) {

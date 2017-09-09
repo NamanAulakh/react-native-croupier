@@ -24,6 +24,8 @@ class Root extends Component {
     };
 
     this.generateCardsInitially = this.generateCardsInitially.bind(this);
+    this.calculatePoints = this.calculatePoints.bind(this);
+    this.generateName = this.generateName.bind(this);
   }
 
   componentWillMount() {
@@ -40,11 +42,18 @@ class Root extends Component {
       actions
     } = this.props;
 
-    for (var i = 0; i < suits.length; i++) {
+    for (var i = 1; i <= suits.length; i++) {
       for (let j = 1; j <= 13; j++) {
         cards.push({
+          id: i * j,
           suit: suits[i],
-          numberOnTheCard: j
+          value: j,
+          name: this.generateName(j),
+          location: null,
+          isClosed: false,
+          points: this.calculatePoints(suits[i], j),
+          isSelected: false,
+          dealt: false
         });
       }
     }
@@ -54,10 +63,41 @@ class Root extends Component {
     }, () => actions.generateAllCards(this.state.cards));
   }
 
+  calculatePoints(suit, value) {
+    if (suit !== 'spades' && value === 1)
+      return 1;
+
+    if (suit === 'diamonds' && value === 10)
+      return 2;
+
+    if (suit === 'spades')
+      return value;
+
+    return 0;
+  }
+
+  generateName(value) {
+    if (value === 1)
+      return 'A';
+
+    if (value === 11)
+      return 'J';
+
+    if (value === 12)
+      return 'Q';
+
+    if (value === 13)
+      return 'K';
+
+    return `${value}`;
+  }
+
   render() {
     const {
       root
     } = rootStyles.styles;
+
+    console.log(this.state.cards)
 
     return(
       <View style={root}>
