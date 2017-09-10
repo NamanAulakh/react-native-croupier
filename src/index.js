@@ -15,12 +15,15 @@ class Root extends Component {
 
     this.state = {
       suits: ['spades', 'hearts', 'diamonds', 'clubs'],
-      cards: ['X']
+      cards: ['X'],
+      deck: [], // ultimate source of truth of our app
+      numberOfCardsToDistribute: '4'
     }
 
     this.generateCardsInitially = this.generateCardsInitially.bind(this)
     this.calculatePoints = this.calculatePoints.bind(this)
     this.generateName = this.generateName.bind(this)
+    this.distributeCards = this.distributeCards.bind(this);
   }
 
   componentWillMount() {
@@ -50,7 +53,8 @@ class Root extends Component {
 
     this.setState(
       {
-        cards
+        cards,
+        deck: this.state.deck.concat(cards)
       },
       () => actions.generateAllCards(this.state.cards)
     )
@@ -78,10 +82,36 @@ class Root extends Component {
     return `${value}`
   }
 
+  distributeCards(numberOfCardsToDistribute) {
+    if (numberOfCardsToDistribute !== 0) {
+      console.log(this.state.cards.length);
+
+      const index = Math.ceil((Math.random()) * (this.state.cards.length - 1));
+      console.log(numberOfCardsToDistribute, index);
+
+      this.setState({
+        cardsToDistribute: this.state.cardsToDistribute.concat([
+          this.state.cards[index]
+        ]),
+        cards: this.state.cards.filter((item, i) => i !== index)
+      }, () => this.distributeCards(numberOfCardsToDistribute - 1));
+    }
+  }
+
+  handleInputChange(numberOfCardsToDistribute) {
+    this.setState({
+      numberOfCardsToDistribute
+    })
+  }
+
   render() {
     const { root } = rootStyles.styles
 
-    // console.log(this.state.cards)
+    const {
+      cards, deck, numberOfCardsToDistribute
+    } = this.state
+
+    console.log(this.state.cards, 'cards', this.state.deck, 'deck')
 
     return (
       <View style={root}>
@@ -89,7 +119,7 @@ class Root extends Component {
 
         <Upper />
 
-        <Lower />
+        <Lower numberOfCardsToDistribute={numberOfCardsToDistribute} handleInputChange={this.handleInputChange}/>
       </View>
     )
   }

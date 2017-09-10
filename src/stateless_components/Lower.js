@@ -3,7 +3,7 @@ import { Text, View, TextInput } from 'react-native'
 import * as lowerStyles from '../styles/lower'
 import HighCards from './HighCards'
 
-const Lower = ({ diff }) => {
+const Lower = ({ diff, numberOfCardsToDistribute, handleInputChange }) => {
   const { lower, userActions, playerCards, player2 } = lowerStyles.styles
 
   if (diff)
@@ -16,7 +16,9 @@ const Lower = ({ diff }) => {
   return (
     <View style={lower}>
       <View style={userActions}>
-        <Text>Actions</Text>
+        <TextInput
+          value={numberOfCardsToDistribute}
+          onChangeText={handleInputChange}/>
       </View>
 
       <View style={playerCards}>
