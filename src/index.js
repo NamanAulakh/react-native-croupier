@@ -23,7 +23,7 @@ class Root extends Component {
     this.generateName = this.generateName.bind(this)
   }
 
-  componentWillMount() {
+  componentWillMount() { // before mounting
     this.generateCardsInitially()
   }
 
@@ -54,6 +54,10 @@ class Root extends Component {
       },
       () => actions.generateAllCards(this.state.cards)
     )
+  }
+
+  matchCondition(){
+
   }
 
   calculatePoints(suit, value) {
