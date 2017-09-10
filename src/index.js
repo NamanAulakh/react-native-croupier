@@ -71,7 +71,7 @@ class Root extends Component {
  	 * @param  {Array}  player               [araay of cards available to the player]
  	 * @return {[type]}                      [description]
  	 */
- 	matchCondition(playerCardID = 7, bidValue = 12, market = {5: {cards: [5], isPakka: false}, 6: {cards: [6], isPakka: false}, 12: {cards: [12], isPakka: false}, 9: {cards: [9], isPakka: true}}, selectedMarketValues = [5], player = [7,3,5,12] ){
+ 	matchCondition(playerCardID = 7, bidValue = 12, market = {5: {cards: [5], isPakka: false, isSelected: false}, 6: {cards: [6], isPakka: false, isSelected: false}, 12: {cards: [12], isPakka: false, isSelected: false}, 9: {cards: [9], isPakka: true, isSelected: false}}, selectedMarketValues = [5], player = [7,3,5,12] ){
 		console.log('aergaererg', this.state.turnCount, bidValue);
 		let matchedConditions = [];
 		let sumOfSMV = 0; //Y
