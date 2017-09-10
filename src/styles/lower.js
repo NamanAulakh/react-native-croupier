@@ -13,18 +13,26 @@ export const styles = StyleSheet.create({
     backgroundColor: 'yellow',
     alignItems: 'center',
     backgroundColor: 'white',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   userActions: {
     flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'red'
+    backgroundColor: 'yellow'
   },
   player2: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'blue'
+  },
+  inputStyles: {
+    height: 40,
+    width: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    padding: 5
   }
 })

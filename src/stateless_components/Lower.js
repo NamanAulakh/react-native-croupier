@@ -1,10 +1,22 @@
 import React, { PropTypes } from 'react'
-import { Text, View, TextInput } from 'react-native'
+import { Text, View, TextInput, Button } from 'react-native'
 import * as lowerStyles from '../styles/lower'
 import HighCards from './HighCards'
 
-const Lower = ({ diff, numberOfCardsToDistribute, handleInputChange }) => {
-  const { lower, userActions, playerCards, player2 } = lowerStyles.styles
+const Lower = ({
+  diff,
+  numberOfCardsToDistribute,
+  handleInputChange,
+  sendToMarket,
+  setPlayersArray
+}) => {
+  const {
+    lower,
+    userActions,
+    playerCards,
+    player2,
+    inputStyles
+  } = lowerStyles.styles
 
   if (diff)
     return (
@@ -17,8 +29,14 @@ const Lower = ({ diff, numberOfCardsToDistribute, handleInputChange }) => {
     <View style={lower}>
       <View style={userActions}>
         <TextInput
+          style={inputStyles}
           value={numberOfCardsToDistribute}
-          onChangeText={handleInputChange}/>
+          onChangeText={handleInputChange}
+        />
+
+        <Button onPress={sendToMarket} title="Market" color="#841584" />
+
+        <Button onPress={setPlayersArray} title="Player" color="#841584" />
       </View>
 
       <View style={playerCards}>

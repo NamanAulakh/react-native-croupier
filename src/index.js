@@ -6,6 +6,9 @@ import * as cardsActions from './redux/actions/cards'
 import * as rootStyles from './styles/root'
 import Upper from './stateless_components/Upper'
 import Lower from './stateless_components/Lower'
+import { find, isUndefined, differenceBy } from 'lodash'
+
+let temp = []
 
 class Root extends Component {
   static propTypes = {}
@@ -14,19 +17,29 @@ class Root extends Component {
     super(props, context)
 
     this.state = {
-      suits: ['spades', 'hearts', 'diamonds', 'clubs'],
+      suits: ['X', 'spades', 'hearts', 'diamonds', 'clubs'],
       cards: ['X'],
       deck: [], // ultimate source of truth of our app
-      numberOfCardsToDistribute: '4'
+      numberOfCardsToDistribute: '4',
+      market: {},
+      playerCards: [],
+      cardsToDistribute: []
     }
 
     this.generateCardsInitially = this.generateCardsInitially.bind(this)
     this.calculatePoints = this.calculatePoints.bind(this)
     this.generateName = this.generateName.bind(this)
-    this.distributeCards = this.distributeCards.bind(this);
+    this.generateRandomCards = this.generateRandomCards.bind(this)
+    this.sendToMarket = this.sendToMarket.bind(this)
+    this.sendToPlayer = this.sendToPlayer.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.initializeState = this.initializeState.bind(this)
+    this.yo = this.yo.bind(this)
+    this.setPlayersArray = this.setPlayersArray.bind(this)
   }
 
-  componentWillMount() { // before mounting
+  componentWillMount() {
+    // before mounting
     this.generateCardsInitially()
   }
 
@@ -35,7 +48,7 @@ class Root extends Component {
 
     const { actions } = this.props
 
-    for (var i = 1; i <= suits.length; i++) {
+    for (let i = 1; i <= 4; i++) {
       for (let j = 1; j <= 13; j++) {
         cards.push({
           id: 13 * (i - 1) + j,
@@ -51,18 +64,13 @@ class Root extends Component {
       }
     }
 
-    this.setState(
-      {
-        cards,
-        deck: this.state.deck.concat(cards)
-      },
-      () => actions.generateAllCards(this.state.cards)
-    )
+    this.setState({
+      cards,
+      deck: this.state.deck.concat(cards)
+    })
   }
 
-  matchCondition(){
-
-  }
+  matchCondition() {}
 
   calculatePoints(suit, value) {
     if (suit !== 'spades' && value === 1) return 1
@@ -86,20 +94,75 @@ class Root extends Component {
     return `${value}`
   }
 
-  distributeCards(numberOfCardsToDistribute) {
-    if (numberOfCardsToDistribute !== 0) {
-      console.log(this.state.cards.length);
+  generateRandomCards(numberOfCardsToDistribute, gaddi) {
+    return new Promise((resolve, reject) => {
+      if (numberOfCardsToDistribute === 0)
+        return resolve(this.state.cardsToDistribute)
 
-      const index = Math.ceil((Math.random()) * (this.state.cards.length - 1));
-      console.log(numberOfCardsToDistribute, index);
+      // if (numberOfCardsToDistribute !== 0) {
+      console.log(gaddi.length)
 
-      this.setState({
-        cardsToDistribute: this.state.cardsToDistribute.concat([
-          this.state.cards[index]
-        ]),
-        cards: this.state.cards.filter((item, i) => i !== index)
-      }, () => this.distributeCards(numberOfCardsToDistribute - 1));
-    }
+      const index = Math.ceil(Math.random() * (gaddi.length - 1))
+      console.log(numberOfCardsToDistribute, index)
+
+      // temp = temp.concat([this.state.cards[index]])
+
+      this.setState(
+        {
+          cardsToDistribute: this.state.cardsToDistribute.concat([gaddi[index]])
+          // cards: gaddi.filter((item, i) => i !== index)
+        },
+        () => {
+          console.log('return.........')
+
+          return resolve(
+            this.generateRandomCards(
+              numberOfCardsToDistribute - 1,
+              gaddi.filter((item, i) => i !== index)
+            )
+          )
+
+          // return resolve(Promise.all([
+          //   this.generateRandomCards(
+          //     numberOfCardsToDistribute - 1,
+          //     gaddi.filter((item, i) => i !== index)
+          //   )
+          // ]))
+        }
+      )
+
+      // return Promise.all([
+      //   this.generateRandomCards(
+      //     numberOfCardsToDistribute - 1,
+      //     gaddi.filter((item, i) => i !== index)
+      //   )
+      // ])
+
+      // return resolve(
+      //   this.generateRandomCards(
+      //     numberOfCardsToDistribute - 1,
+      //     gaddi.filter((item, i) => i !== index)
+      //   )
+      // )
+      // } else {
+      //   // console.log(this.state.cardsToDistribute, 'else')
+      //   console.log(temp, 'else')
+      //
+      // if (
+      //   isUndefined(
+      //     find(this.state.cardsToDistribute, item => item.value >= 9)
+      //   )
+      // )
+      // return this.initializeState(
+      //   this.generateRandomCards,
+      //   parseInt(this.state.numberOfCardsToDistribute)
+      // )
+      //
+      //   console.log('resolving')
+      //
+      //   return resolve(temp)
+      // }
+    })
   }
 
   handleInputChange(numberOfCardsToDistribute) {
@@ -108,22 +171,122 @@ class Root extends Component {
     })
   }
 
+  sendToPlayer() {
+    const { numberOfCardsToDistribute, cardsToDistribute } = this.state
+
+    // this.initializeState(this.yo, 4)
+
+    return new Promise((resolve, reject) => {
+      Promise.all([
+        this.generateRandomCards(
+          parseInt(numberOfCardsToDistribute),
+          this.state.cards
+        )
+      ])
+        .then(cardsToDistribute => {
+          console.log(cardsToDistribute, 'here')
+          if (
+            !isUndefined(
+              find(this.state.cardsToDistribute, item => item.value >= 9)
+            )
+          )
+            return resolve(cardsToDistribute[0])
+
+          console.log('condition not satisfied')
+
+          return this.setState(
+            {
+              cardsToDistribute: []
+            },
+            () => {
+              console.log(this.state.cards, 'casjhvasjhdhsd')
+              return resolve(this.sendToPlayer())
+            }
+          )
+
+          // return resolve(cardsToDistribute)
+        })
+        .catch(er => console.log(er, 'err........'))
+    })
+
+    // console.log(cardsToDistribute, 'sendToPlayer')
+
+    // this.setState({
+    //   playerCards: this.state.playerCards.concat([])
+    // })
+  }
+
+  setPlayersArray() {
+    const { cardsToDistribute } = this.state
+
+    Promise.all([this.sendToPlayer()])
+      .then(cardsToDistribute => {
+        console.log(cardsToDistribute[0], 'setPlayersArray')
+
+        // console.log(
+        //   differenceBy(this.state.cards, cardsToDistribute[0], 'id'),
+        //   'diff...'
+        // )
+
+        this.setState({
+          cards: differenceBy(this.state.cards, cardsToDistribute[0], 'id'),
+          playerCards: this.state.playerCards.concat(cardsToDistribute[0]),
+          cardsToDistribute: []
+        })
+      })
+      .catch(err => console.log(err, 'setPlayersArray'))
+  }
+
+  sendToMarket() {
+    const { numberOfCardsToDistribute } = this.state
+
+    console.log(numberOfCardsToDistribute, 'sendToMarket')
+  }
+
+  yo(val) {
+    console.log(val, 'yo')
+  }
+
+  initializeState(cb, other) {
+    this.setState(
+      {
+        cardsToDistribute: []
+      },
+      () => {
+        console.log(this.state.cards, 'casjhvasjhdhsd')
+        return cb(other, this.state.cards)
+      }
+    )
+  }
+
   render() {
     const { root } = rootStyles.styles
 
     const {
-      cards, deck, numberOfCardsToDistribute
+      cards,
+      deck,
+      numberOfCardsToDistribute,
+      cardsToDistribute,
+      playerCards
     } = this.state
 
-    console.log(this.state.cards, 'cards', this.state.deck, 'deck')
+    // console.log(cardsToDistribute)
+
+    // console.log(this.state.cards, 'cards', this.state.deck, 'deck')
+    console.log(this.state.cards, 'cards', playerCards)
 
     return (
       <View style={root}>
-        <Lower diff/>
+        <Lower diff />
 
         <Upper />
 
-        <Lower numberOfCardsToDistribute={numberOfCardsToDistribute} handleInputChange={this.handleInputChange}/>
+        <Lower
+          numberOfCardsToDistribute={numberOfCardsToDistribute}
+          handleInputChange={this.handleInputChange}
+          setPlayersArray={this.setPlayersArray}
+          sendToMarket={this.sendToMarket}
+        />
       </View>
     )
   }
