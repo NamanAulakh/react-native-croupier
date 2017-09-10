@@ -26,7 +26,7 @@ class Root extends Component {
     this.distributeCards = this.distributeCards.bind(this);
   }
 
-  componentWillMount() {
+  componentWillMount() { // before mounting
     this.generateCardsInitially()
   }
 
@@ -58,6 +58,10 @@ class Root extends Component {
       },
       () => actions.generateAllCards(this.state.cards)
     )
+  }
+
+  matchCondition(){
+
   }
 
   calculatePoints(suit, value) {
