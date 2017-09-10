@@ -7,7 +7,7 @@ const Lower = ({
   diff,
   numberOfCardsToDistribute,
   handleInputChange,
-  sendToMarket,
+  setMarket,
   setPlayersArray
 }) => {
   const {
@@ -34,7 +34,7 @@ const Lower = ({
           onChangeText={handleInputChange}
         />
 
-        <Button onPress={sendToMarket} title="Market" color="#841584" />
+        <Button onPress={setMarket} title="Market" color="#841584" />
 
         <Button onPress={setPlayersArray} title="Player" color="#841584" />
       </View>

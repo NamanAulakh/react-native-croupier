@@ -30,12 +30,13 @@ class Root extends Component {
     this.calculatePoints = this.calculatePoints.bind(this)
     this.generateName = this.generateName.bind(this)
     this.generateRandomCards = this.generateRandomCards.bind(this)
-    this.sendToMarket = this.sendToMarket.bind(this)
-    this.sendToPlayer = this.sendToPlayer.bind(this)
+    this.setMarket = this.setMarket.bind(this)
+    this.pickCardsToDistribute = this.pickCardsToDistribute.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.initializeState = this.initializeState.bind(this)
     this.yo = this.yo.bind(this)
     this.setPlayersArray = this.setPlayersArray.bind(this)
+    this.createMarket = this.createMarket.bind(this)
   }
 
   componentWillMount() {
@@ -100,10 +101,10 @@ class Root extends Component {
         return resolve(this.state.cardsToDistribute)
 
       // if (numberOfCardsToDistribute !== 0) {
-      console.log(gaddi.length)
+      // console.log(gaddi.length)
 
       const index = Math.ceil(Math.random() * (gaddi.length - 1))
-      console.log(numberOfCardsToDistribute, index)
+      // console.log(numberOfCardsToDistribute, index)
 
       // temp = temp.concat([this.state.cards[index]])
 
@@ -113,7 +114,7 @@ class Root extends Component {
           // cards: gaddi.filter((item, i) => i !== index)
         },
         () => {
-          console.log('return.........')
+          // console.log('return.........')
 
           return resolve(
             this.generateRandomCards(
@@ -171,7 +172,7 @@ class Root extends Component {
     })
   }
 
-  sendToPlayer() {
+  pickCardsToDistribute() {
     const { numberOfCardsToDistribute, cardsToDistribute } = this.state
 
     // this.initializeState(this.yo, 4)
@@ -184,7 +185,7 @@ class Root extends Component {
         )
       ])
         .then(cardsToDistribute => {
-          console.log(cardsToDistribute, 'here')
+          // console.log(cardsToDistribute, 'here')
           if (
             !isUndefined(
               find(this.state.cardsToDistribute, item => item.value >= 9)
@@ -192,15 +193,15 @@ class Root extends Component {
           )
             return resolve(cardsToDistribute[0])
 
-          console.log('condition not satisfied')
+          // console.log('condition not satisfied')
 
           return this.setState(
             {
               cardsToDistribute: []
             },
             () => {
-              console.log(this.state.cards, 'casjhvasjhdhsd')
-              return resolve(this.sendToPlayer())
+              // console.log(this.state.cards, 'casjhvasjhdhsd')
+              return resolve(this.pickCardsToDistribute())
             }
           )
 
@@ -209,7 +210,7 @@ class Root extends Component {
         .catch(er => console.log(er, 'err........'))
     })
 
-    // console.log(cardsToDistribute, 'sendToPlayer')
+    // console.log(cardsToDistribute, 'pickCardsToDistribute')
 
     // this.setState({
     //   playerCards: this.state.playerCards.concat([])
@@ -219,9 +220,9 @@ class Root extends Component {
   setPlayersArray() {
     const { cardsToDistribute } = this.state
 
-    Promise.all([this.sendToPlayer()])
+    Promise.all([this.pickCardsToDistribute()])
       .then(cardsToDistribute => {
-        console.log(cardsToDistribute[0], 'setPlayersArray')
+        // console.log(cardsToDistribute[0], 'setPlayersArray')
 
         // console.log(
         //   differenceBy(this.state.cards, cardsToDistribute[0], 'id'),
@@ -237,14 +238,58 @@ class Root extends Component {
       .catch(err => console.log(err, 'setPlayersArray'))
   }
 
-  sendToMarket() {
+  setMarket() {
     const { numberOfCardsToDistribute } = this.state
 
-    console.log(numberOfCardsToDistribute, 'sendToMarket')
+    Promise.all([this.pickCardsToDistribute()])
+      .then(cardsToDistribute => {
+        // console.log(cardsToDistribute[0], 'setMarket')
+
+        // console.log(
+        //   differenceBy(this.state.cards, cardsToDistribute[0], 'id'),
+        //   'diff...'
+        // )
+
+        this.setState({
+          cards: differenceBy(this.state.cards, cardsToDistribute[0], 'id'),
+          market: this.createMarket(cardsToDistribute[0]),
+          cardsToDistribute: []
+        })
+      })
+      .catch(err => console.log(err, 'setPlayersArray'))
+  }
+
+  createMarket(values) {
+    let { market } = this.state
+
+    // console.log(Object.assign({}, market), values, values.length, '&&&&&&&&&&&&&&&&&&&&')
+
+    for (let i = 0; i < values.length; i++) {
+      // if (market[])
+
+      const key = [values[i].value]
+      const id = [values[i].id]
+
+      // console.log(market[key], 'uiouiuyiuuigjjh...................')
+
+      if (!isUndefined(market[key]))
+        market = Object.assign({}, market, {
+          [key]: Object.assign({}, market[key], { cards: market[key].cards.concat([id]) })
+        })
+      else {
+        market = Object.assign({}, market, {
+          [values[i].value]: { cards: [id], isGhar: false, isPakka: false, isSelected: false }
+        })
+      }
+    }
+
+    // console.log(market, '***********************')
+
+    return market
   }
 
   yo(val) {
-    console.log(val, 'yo')
+    // console.log(val, 'yo')
   }
 
   initializeState(cb, other) {
@@ -253,7 +298,7 @@ class Root extends Component {
         cardsToDistribute: []
       },
       () => {
-        console.log(this.state.cards, 'casjhvasjhdhsd')
+        // console.log(this.state.cards, 'casjhvasjhdhsd')
         return cb(other, this.state.cards)
       }
     )
@@ -267,13 +312,14 @@ class Root extends Component {
       deck,
       numberOfCardsToDistribute,
       cardsToDistribute,
-      playerCards
+      playerCards,
+      market
     } = this.state
 
     // console.log(cardsToDistribute)
 
     // console.log(this.state.cards, 'cards', this.state.deck, 'deck')
-    console.log(this.state.cards, 'cards', playerCards)
+    console.log(this.state.cards, 'cards', playerCards, 'players', market, 'market')
 
     return (
       <View style={root}>
@@ -285,7 +331,7 @@ class Root extends Component {
           numberOfCardsToDistribute={numberOfCardsToDistribute}
           handleInputChange={this.handleInputChange}
           setPlayersArray={this.setPlayersArray}
-          sendToMarket={this.sendToMarket}
+          setMarket={this.setMarket}
         />
       </View>
     )
