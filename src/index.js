@@ -1,126 +1,110 @@
-import React, { PropTypes, Component } from 'react';
-import {
-  Text,
-  View
-} from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as cardsActions from './redux/actions/cards';
-import * as rootStyles from './styles/root';
-import Upper from './stateless_components/Upper';
-import Lower from './stateless_components/Lower';
+import React, { PropTypes, Component } from 'react'
+import { Text, View } from 'react-native'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as cardsActions from './redux/actions/cards'
+import * as rootStyles from './styles/root'
+import Upper from './stateless_components/Upper'
+import Lower from './stateless_components/Lower'
 
 class Root extends Component {
-  static propTypes = {
-
-  };
+  static propTypes = {}
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
 
     this.state = {
       suits: ['spades', 'hearts', 'diamonds', 'clubs'],
-      cards: ['X'],
-    };
+      cards: ['X']
+    }
 
-    this.generateCardsInitially = this.generateCardsInitially.bind(this);
-    this.calculatePoints = this.calculatePoints.bind(this);
-    this.generateName = this.generateName.bind(this);
+    this.generateCardsInitially = this.generateCardsInitially.bind(this)
+    this.calculatePoints = this.calculatePoints.bind(this)
+    this.generateName = this.generateName.bind(this)
   }
 
   componentWillMount() {
-    this.generateCardsInitially();
+    this.generateCardsInitially()
   }
 
   generateCardsInitially() {
-    const {
-      suits,
-      cards
-    } = this.state;
+    const { suits, cards } = this.state
 
-    const {
-      actions
-    } = this.props;
+    const { actions } = this.props
 
     for (var i = 1; i <= suits.length; i++) {
       for (let j = 1; j <= 13; j++) {
         cards.push({
-          id: i * j,
+          id: 13 * (i - 1) + j,
           suit: suits[i],
           value: j,
           name: this.generateName(j),
-          location: null,
+          location: null, // deck, P1, P2, TP1, TP2, market
           isClosed: false,
           points: this.calculatePoints(suits[i], j),
           isSelected: false,
-          dealt: false
-        });
+          isDealt: false
+        })
       }
     }
 
-    this.setState({
-      cards
-    }, () => actions.generateAllCards(this.state.cards));
+    this.setState(
+      {
+        cards
+      },
+      () => actions.generateAllCards(this.state.cards)
+    )
   }
 
   calculatePoints(suit, value) {
-    if (suit !== 'spades' && value === 1)
-      return 1;
+    if (suit !== 'spades' && value === 1) return 1
 
-    if (suit === 'diamonds' && value === 10)
-      return 2;
+    if (suit === 'diamonds' && value === 10) return 2
 
-    if (suit === 'spades')
-      return value;
+    if (suit === 'spades') return value
 
-    return 0;
+    return 0
   }
 
   generateName(value) {
-    if (value === 1)
-      return 'A';
+    if (value === 1) return 'A'
 
-    if (value === 11)
-      return 'J';
+    if (value === 11) return 'J'
 
-    if (value === 12)
-      return 'Q';
+    if (value === 12) return 'Q'
 
-    if (value === 13)
-      return 'K';
+    if (value === 13) return 'K'
 
-    return `${value}`;
+    return `${value}`
   }
 
   render() {
-    const {
-      root
-    } = rootStyles.styles;
+    const { root } = rootStyles.styles
 
-    console.log(this.state.cards)
+    // console.log(this.state.cards)
 
-    return(
+    return (
       <View style={root}>
-        <Upper/>
+        <Lower diff/>
 
-        <Lower/>
+        <Upper />
+
+        <Lower />
       </View>
-    );
+    )
   }
 }
 
 const mapStateToProps = () => {
-  return {
+  return {}
+}
 
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  const actions = Object.assign({}, cardsActions);
+const mapDispatchToProps = dispatch => {
+  const actions = Object.assign({}, cardsActions)
 
   return {
     actions: bindActionCreators(actions, dispatch)
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Root);
+export default connect(mapStateToProps, mapDispatchToProps)(Root)
