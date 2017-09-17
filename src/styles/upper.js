@@ -2,19 +2,21 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  upper: {
+  container: {
     flex: 2,
     backgroundColor: 'green',
-    justifyContent: 'center',
-    alignItems: 'center'
-    // backgroundColor: 'green',
-    // flex: 4,
-    // padding: 2
+    borderWidth: 20
   },
-  upperContainer: {
+  upperColumn: {
     flex: 1,
-    backgroundColor: 'gray',
-    padding: 2,
-    flexDirection: 'row'
+    backgroundColor: 'blue',
+    borderWidth: 2,
+    borderColor: 'red'
+  },
+  lowerColumn: {
+    flex: 1,
+    backgroundColor: 'violet',
+    borderWidth: 2,
+    borderColor: 'yellow'
   }
 });

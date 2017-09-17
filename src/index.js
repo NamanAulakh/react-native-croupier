@@ -24,7 +24,8 @@ class Root extends Component {
       market: {},
       playerCards: [],
       cardsToDistribute: [],
-      turnCount: 0
+      turnCount: 0,
+      allowAll: false
     }
 
     this.generateCardsInitially = this.generateCardsInitially.bind(this)
@@ -39,6 +40,7 @@ class Root extends Component {
     this.setPlayersArray = this.setPlayersArray.bind(this)
     this.createMarket = this.createMarket.bind(this)
     this.matchCondition = this.matchCondition.bind(this)
+    this.onSelectCard = this.onSelectCard.bind(this)
   }
 
   componentWillMount() {
@@ -315,7 +317,12 @@ class Root extends Component {
   }
 
   pickCardsToDistribute() {
-    const { numberOfCardsToDistribute, cardsToDistribute } = this.state
+    const { numberOfCardsToDistribute, cardsToDistribute, cards } = this.state
+
+    // console.log(numberOfCardsToDistribute, cards.length)
+    //
+    // if (numberOfCardsToDistribute > cards.length - 1)
+    //   return alert(`Fuck Off..${cards.length - 1} cards left to distribute`)
 
     // this.initializeState(this.yo, 4)
 
@@ -327,7 +334,7 @@ class Root extends Component {
         )
       ])
         .then(cardsToDistribute => {
-          // console.log(cardsToDistribute, 'here')
+          console.log(cardsToDistribute, this.state.allowAll, 'here')
           if (
             !isUndefined(
               find(this.state.cardsToDistribute, item => item.value >= 9)
@@ -337,17 +344,18 @@ class Root extends Component {
 
           // console.log('condition not satisfied')
 
-          return this.setState(
-            {
-              cardsToDistribute: []
-            },
-            () => {
-              // console.log(this.state.cards, 'casjhvasjhdhsd')
-              return resolve(this.pickCardsToDistribute())
-            }
-          )
+          if (!this.state.allowAll)
+            return this.setState(
+              {
+                cardsToDistribute: []
+              },
+              () => {
+                // console.log(this.state.cards, 'casjhvasjhdhsd')
+                return resolve(this.pickCardsToDistribute())
+              }
+            )
 
-          // return resolve(cardsToDistribute)
+          return resolve(cardsToDistribute[0])
         })
         .catch(er => console.log(er, 'err........'))
     })
@@ -360,7 +368,12 @@ class Root extends Component {
   }
 
   setPlayersArray() {
-    const { cardsToDistribute } = this.state
+    const { numberOfCardsToDistribute, cards } = this.state
+
+    console.log(numberOfCardsToDistribute, cards.length)
+
+    if (numberOfCardsToDistribute > cards.length - 1)
+      return alert(`Fuck Off..${cards.length - 1} cards left to distribute`)
 
     Promise.all([this.pickCardsToDistribute()])
       .then(cardsToDistribute => {
@@ -374,14 +387,20 @@ class Root extends Component {
         this.setState({
           cards: differenceBy(this.state.cards, cardsToDistribute[0], 'id'),
           playerCards: this.state.playerCards.concat(cardsToDistribute[0]),
-          cardsToDistribute: []
+          cardsToDistribute: [],
+          allowAll: true
         })
       })
       .catch(err => console.log(err, 'setPlayersArray'))
   }
 
   setMarket() {
-    const { numberOfCardsToDistribute } = this.state
+    const { numberOfCardsToDistribute, cards } = this.state
+
+    console.log(numberOfCardsToDistribute, cards.length)
+
+    if (numberOfCardsToDistribute > cards.length - 1)
+      return alert(`Fuck Off..${cards.length - 1} cards left to distribute`)
 
     Promise.all([this.pickCardsToDistribute()])
       .then(cardsToDistribute => {
@@ -395,7 +414,8 @@ class Root extends Component {
         this.setState({
           cards: differenceBy(this.state.cards, cardsToDistribute[0], 'id'),
           market: this.createMarket(cardsToDistribute[0]),
-          cardsToDistribute: []
+          cardsToDistribute: [],
+          allowAll: true
         })
       })
       .catch(err => console.log(err, 'setPlayersArray'))
@@ -453,8 +473,12 @@ class Root extends Component {
     )
   }
 
+  onSelectCard(card) {
+    console.log(card, 'onSelectCard')
+  }
+
   render() {
-    this.matchCondition()
+    // this.matchCondition()
 
     const { root } = rootStyles.styles
 
@@ -470,26 +494,23 @@ class Root extends Component {
     // console.log(cardsToDistribute)
 
     // console.log(this.state.cards, 'cards', this.state.deck, 'deck')
-    console.log(
-      this.state.cards,
-      'cards',
-      playerCards,
-      'players',
-      market,
-      'market'
-    )
+    // console.log(cards, 'cards', playerCards, 'players', market, 'market')
 
     return (
       <View style={root}>
-        <Lower diff />
+        {
+          // <Lower diff />
+        }
 
-        <Upper />
+        <Upper market={market} />
 
         <Lower
           numberOfCardsToDistribute={numberOfCardsToDistribute}
           handleInputChange={this.handleInputChange}
           setPlayersArray={this.setPlayersArray}
           setMarket={this.setMarket}
+          onSelectCard={this.onSelectCard}
+          playerCards={playerCards}
         />
       </View>
     )

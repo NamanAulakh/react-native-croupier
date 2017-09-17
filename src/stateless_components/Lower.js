@@ -2,18 +2,21 @@ import React, { PropTypes } from 'react'
 import { Text, View, TextInput, Button } from 'react-native'
 import * as lowerStyles from '../styles/lower'
 import HighCards from './HighCards'
+import Cards from './Cards'
 
 const Lower = ({
   diff,
   numberOfCardsToDistribute,
   handleInputChange,
   setMarket,
-  setPlayersArray
+  setPlayersArray,
+  onSelectCard,
+  playerCards
 }) => {
   const {
     lower,
     userActions,
-    playerCards,
+    playerCards: plStyles,
     player2,
     inputStyles
   } = lowerStyles.styles
@@ -39,8 +42,8 @@ const Lower = ({
         <Button onPress={setPlayersArray} title="Player" color="#841584" />
       </View>
 
-      <View style={playerCards}>
-        <Text>Cards</Text>
+      <View style={plStyles}>
+        <Cards onSelectCard={onSelectCard} playerCards={playerCards} />
       </View>
     </View>
   )
