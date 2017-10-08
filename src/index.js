@@ -1,4 +1,4 @@
-// eslint-disable-file
+/* eslint-disable */
 import React, { Component } from 'react';
 import { View, Button } from 'react-native';
 import { connect } from 'react-redux';
