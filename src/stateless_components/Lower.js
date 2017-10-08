@@ -1,8 +1,9 @@
-import React, { PropTypes } from 'react'
-import { Text, View, TextInput, Button } from 'react-native'
-import * as lowerStyles from '../styles/lower'
-import HighCards from './HighCards'
-import Cards from './Cards'
+import React, { PropTypes } from 'react';
+import { Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
+import * as lowerStyles from '../styles/lower';
+import ActionBar from './ActionBar';
+import HighCards from './HighCards';
+import Cards from './Cards';
 
 const Lower = ({
   diff,
@@ -18,7 +19,7 @@ const Lower = ({
     userActions,
     playerCards: plStyles,
     player2,
-    inputStyles
+    inputStyles,
   } = lowerStyles.styles
 
   if (diff)
@@ -27,21 +28,15 @@ const Lower = ({
         <Text>Player2</Text>
       </View>
     )
-
+  const actions = {
+    'isLeave': false,
+    'isTake': true,
+    'isBuild': false,
+    'isUp': true,
+    'isAdd': false,
+  };
   return (
-    <View style={lower}>
-      <View style={userActions}>
-        <TextInput
-          style={inputStyles}
-          value={numberOfCardsToDistribute}
-          onChangeText={handleInputChange}
-        />
-
-        <Button onPress={setMarket} title="Market" color="#841584" />
-
-        <Button onPress={setPlayersArray} title="Player" color="#841584" />
-      </View>
-
+    <View style={[lower, {backgroundColor: 'white'}]}>
       <View style={plStyles}>
         <Cards onSelectCard={onSelectCard} playerCards={playerCards} />
       </View>

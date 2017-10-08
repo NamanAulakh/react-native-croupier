@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native'
 export const styles = StyleSheet.create({
   lower: {
     flex: 1,
-    backgroundColor: 'blue'
+    backgroundColor: 'blue',
     // justifyContent: 'center',
     // alignItems: 'center'
   },
@@ -20,7 +20,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: 'yellow'
+    backgroundColor: 'yellow',
+    height: 10,
   },
   player2: {
     flex: 1,
@@ -34,5 +35,13 @@ export const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     padding: 5
+  },
+  actionBarStyles: {
+    flex: 1,
+    borderWidth: 1,
+    padding: 5,
+    margin: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 })

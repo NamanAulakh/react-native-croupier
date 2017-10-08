@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, Button } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as cardsActions from './redux/actions/cards'
@@ -59,7 +59,7 @@ class Root extends Component {
           id: 13 * (i - 1) + j,
           suit: suits[i],
           value: j,
-          name: this.generateName(j),
+          name: `${this.generateName(j)}_of_${suits[i]}`,
           location: null, // deck, P1, P2, TP1, TP2, market
           isClosed: false,
           points: this.calculatePoints(suits[i], j),
@@ -228,13 +228,13 @@ class Root extends Component {
   }
 
   generateName(value) {
-    if (value === 1) return 'A'
+    if (value === 1) return 'ace'
 
-    if (value === 11) return 'J'
+    if (value === 11) return 'jack'
 
-    if (value === 12) return 'Q'
+    if (value === 12) return 'queen'
 
-    if (value === 13) return 'K'
+    if (value === 13) return 'king'
 
     return `${value}`
   }
@@ -503,7 +503,7 @@ class Root extends Component {
         }
 
         <Upper market={market} />
-
+        <Button onPress={this.setPlayersArray} title="Player" color="#841584" />
         <Lower
           numberOfCardsToDistribute={numberOfCardsToDistribute}
           handleInputChange={this.handleInputChange}
