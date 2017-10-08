@@ -1,15 +1,8 @@
 import { combineReducers } from 'redux';
+import defaultReducer from './defaultReducer';
 
-import kings from './kings';
-import cards from './cards';
+const appReducer = combineReducers({ defaultReducer });
 
-const appReducer = combineReducers({
-  kings,
-  cards
-});
-
-const rootReducer = (state, action) => {
-  return appReducer(state, action);
-};
+const rootReducer = (state, action) => appReducer(state, action);
 
 export default rootReducer;
