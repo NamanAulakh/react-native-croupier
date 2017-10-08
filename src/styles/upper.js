@@ -9,14 +9,27 @@ export const styles = StyleSheet.create({
   },
   upperColumn: {
     flex: 1,
-    backgroundColor: 'blue',
+    flexDirection: 'row',
+    backgroundColor: 'yellow',
     borderWidth: 2,
     borderColor: 'red'
   },
   lowerColumn: {
     flex: 1,
+    flexDirection: 'row',
     backgroundColor: 'violet',
     borderWidth: 2,
     borderColor: 'yellow'
+  },
+  homeValueStyles: {
+    flex: 1,
+    backgroundColor: 'green',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  listCards: {
+    flex: 2,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });

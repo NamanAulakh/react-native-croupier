@@ -6,7 +6,7 @@ import HighCards from './HighCards'
 const Cards = ({ onSelectCard, playerCards }) => {
   const { container, card, card1, text } = cardStyles.styles
 
-  console.log(playerCards, '........Cards......')
+  // console.log(playerCards, '........Cards......')
 
   if (playerCards.length === 0) return <Text>Cards</Text>
 

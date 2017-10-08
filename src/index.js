@@ -8,7 +8,7 @@ import Upper from './stateless_components/Upper'
 import Lower from './stateless_components/Lower'
 import { find, isUndefined, differenceBy } from 'lodash'
 
-let temp = []
+// let temp = []
 
 class Root extends Component {
   static propTypes = {}
@@ -334,7 +334,7 @@ class Root extends Component {
         )
       ])
         .then(cardsToDistribute => {
-          console.log(cardsToDistribute, this.state.allowAll, 'here')
+          // console.log(cardsToDistribute, this.state.allowAll, 'here')
           if (
             !isUndefined(
               find(this.state.cardsToDistribute, item => item.value >= 9)
@@ -370,7 +370,7 @@ class Root extends Component {
   setPlayersArray() {
     const { numberOfCardsToDistribute, cards } = this.state
 
-    console.log(numberOfCardsToDistribute, cards.length)
+    // console.log(numberOfCardsToDistribute, cards.length)
 
     if (numberOfCardsToDistribute > cards.length - 1)
       return alert(`Fuck Off..${cards.length - 1} cards left to distribute`)
@@ -418,7 +418,7 @@ class Root extends Component {
           allowAll: true
         })
       })
-      .catch(err => console.log(err, 'setPlayersArray'))
+      .catch(err => console.log(err, 'setMarket'))
   }
 
   createMarket(values) {
@@ -430,7 +430,9 @@ class Root extends Component {
       // if (market[])
 
       const key = [values[i].value]
-      const id = [values[i].id]
+      const id = values[i].id
+
+      // console.log(id, 'as,jhd sfgdsjdhfg ads')
 
       // console.log(market[key], 'uiouiuyiuuigjjh...................')
 
@@ -502,7 +504,7 @@ class Root extends Component {
           // <Lower diff />
         }
 
-        <Upper market={market} />
+        <Upper market={market} deck={deck} />
 
         <Lower
           numberOfCardsToDistribute={numberOfCardsToDistribute}

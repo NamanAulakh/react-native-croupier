@@ -4,48 +4,108 @@ import { round } from 'lodash'
 import * as upperStyles from '../styles/upper'
 import Market from '../stateful_components/Market'
 import LowerCards from '../stateful_components/LowerCards'
+import Entity from './Entity'
 
-const Upper = ({ market }) => {
-  const { container, upperColumn, lowerColumn } = upperStyles.styles
+const Upper = ({ market, deck }) => {
+  const {
+    container,
+    upperColumn,
+    lowerColumn,
+    homeValueStyles,
+    listCards
+  } = upperStyles.styles
 
-  console.log(market, '*******market*********')
+  let arr1 = []
 
-  // console.log(Object.keys(market).length)
+  Object.keys(market).forEach(key => {
+    // when all the cards aren't unique in the market
+    if (!market[key].isGhar && market[key].cards.length >= 2) {
+      market[key].cards.forEach(id => {
+        // console.log(' fdjsdfhjsd dhere......')
+        console.log(deck[id])
+        arr1.push({ [key]: { cards: [deck[id].id] } })
+      })
+    } else {
+      // unique cards in the market
 
-  const keysArray = Object.keys(market)
+      // console.log('elsejdsg dgsfdsmfasd')
+      arr1.push({
+        [key]: market[key]
+      })
+    }
+  })
 
-  const marketLength = keysArray.length
-
-  const upperColumnLength = round(marketLength / 2)
-
-  const lowerColumnLength = marketLength - upperColumnLength
-
-  const upperColumnArray = keysArray.slice(0, upperColumnLength)
-
-  const lowerColumnArray = keysArray.slice(upperColumnLength, marketLength)
-
-  // console.log(upperColumnArray, lowerColumnArray)
+  console.log(market, '***********', deck)
+  console.log(arr1, '***********')
 
   return (
     <View style={container}>
-      <View style={upperColumn}>
-        <Text>1st column</Text>
+      <View
+        style={{
+          flex: 1,
+          borderWidth: 1,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'yellow'
+        }}
+      >
+        {arr1.slice(0, round(arr1.length / 2)).map((item, index) => {
+          console.log(item, '***********')
+          console.log(Object.keys(item), '***********')
+
+          return (
+            <View key={index} style={{ flex: 1, borderWidth: 1 }}>
+              <Text>{`H: ${Object.keys(item)[0]}`}</Text>
+
+              {item[
+                parseInt(Object.keys(item)[0])
+              ].cards.map((item1, index1) => {
+                console.log(item1, '&&&&&&&')
+
+                return (
+                  <View key={index1}>
+                    <Text>{`${deck[item1].value} of ${deck[item1].suit}`}</Text>
+                  </View>
+                )
+              })}
+            </View>
+          )
+        })}
       </View>
 
-      <View style={lowerColumn}>
-        <Text>2nd column</Text>
+      <View
+        style={{
+          flex: 1,
+          borderWidth: 1,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'green'
+        }}
+      >
+        {arr1.slice(round(arr1.length / 2), arr1.length).map((item, index) => {
+          console.log(item, '***********')
+
+          return (
+            <View key={index} style={{ flex: 1, borderWidth: 1 }}>
+              <Text>{`H: ${Object.keys(item)[0]}`}</Text>
+
+              {item[
+                parseInt(Object.keys(item)[0])
+              ].cards.map((item1, index1) => {
+                console.log('&&&&&&&')
+
+                return (
+                  <View key={index1}>
+                    <Text>{`${deck[item1].value} of ${deck[item1].suit}`}</Text>
+                  </View>
+                )
+              })}
+            </View>
+          )
+        })}
       </View>
-      {
-        //   playerCards.map((item, index) => {
-        //   return (
-        //     <TouchableOpacity style={card} key={index} onPress={() => onSelectCard(item)}>
-        //       <View style={card1}>
-        // <Text style={text}>{`${item.value} of ${item.suit}`}</Text>
-        //       </View>
-        //     </TouchableOpacity>
-        //   )
-        // })
-      }
     </View>
   )
 }
