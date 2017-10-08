@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
-import { Text, View, Image, PanResponder, Animated, TouchableWithoutFeedback } from 'react-native';
+import { Text, View, Image, PanResponder, Animated } from 'react-native';
+import { connect } from 'react-redux';
 import * as cardStyles from '../styles/cards';
 import Images from '../themes/Images';
 
 class Cards extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      pan: new Animated.ValueXY(),
-    };
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     // dropZoneValues: null,
+  //   };
+  // }
+  isDropZone(gesture) {
+    console.log(this.props.dropZoneValues, gesture);
+    const dz = this.props.dropZoneValues;
+    return gesture.moveY > dz.y && gesture.moveY < dz.y + dz.height;
   }
-
-  _renderCards(item, key) {
+  _renderCards(item) {
     const cards = Images[item.name];
     const pan = new Animated.ValueXY();
     this.panResponder = PanResponder.create({
@@ -21,8 +26,18 @@ class Cards extends Component {
         dx: pan.x,
         dy: pan.y,
       }]),
-      onPanResponderRelease: (e, gesture) => {},
+      onPanResponderRelease: (e, gesture) => {
+        if (this.isDropZone(gesture)) {
+          alert('dropped in drop zone');
+        } else {
+          Animated.spring(
+            this.state.pan,
+            { toValue: { x: 0, y: 0 } }
+          ).start();
+        }
+      },
     });
+
     return (
       <Animated.View
         {...this.panResponder.panHandlers}
@@ -41,9 +56,9 @@ class Cards extends Component {
     if (playerCards.length === 0) return <Text>Cards</Text>;
     return (
       <View style={container}>
-        {playerCards.map((item, key) => (
+        {playerCards.map(item => (
           <View key={Math.random()}>
-            {this._renderCards(item, key)}
+            {this._renderCards(item)}
           </View>
           ))}
       </View>
@@ -52,4 +67,9 @@ class Cards extends Component {
 }
 Cards.propTypes = {};
 
-export default Cards;
+function mapStateToProps(state) {
+  return {
+    dropZoneValues: state.market.dropZoneValues,
+  };
+}
+export default connect(mapStateToProps)(Cards);

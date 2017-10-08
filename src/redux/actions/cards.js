@@ -1,10 +1,8 @@
 import {
-  GENERATE_ALL_CARDS
+  GENERATE_ALL_CARDS,
 } from '../../constants';
 
-export const generateAllCards = (cards) => {
-  return {
-    type: GENERATE_ALL_CARDS,
-    cards
-  };
-};
+export const generateAllCards = cards => ({
+  type: GENERATE_ALL_CARDS,
+  cards,
+});
