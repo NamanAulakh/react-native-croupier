@@ -1,11 +1,18 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
+
+const { width, height } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: 'red',
-    flexDirection: 'row'
+    borderWidth: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: width,
+    justifyContent: 'space-around',
+    alignItems: 'flex-start',
+    paddingTop: 10,
   },
   card: {
     flex: 1,
@@ -18,5 +25,9 @@ export const styles = StyleSheet.create({
   },
   text: {
     // flex: 1
+  },
+  itemImageContainer: {
+    flex: 1,
+    justifyContent: 'center'
   }
 })
