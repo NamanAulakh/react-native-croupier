@@ -1,6 +1,5 @@
 export default {
-  // cards state
-  cards: {
-    data: [],
+  market: {
+    dropZoneValues: 4,
   },
 };

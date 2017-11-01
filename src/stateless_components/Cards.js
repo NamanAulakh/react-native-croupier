@@ -31,7 +31,7 @@ class Cards extends Component {
           alert('dropped in drop zone');
         } else {
           Animated.spring(
-            this.state.pan,
+            pan,
             { toValue: { x: 0, y: 0 } }
           ).start();
         }
@@ -60,7 +60,7 @@ class Cards extends Component {
           <View key={Math.random()}>
             {this._renderCards(item)}
           </View>
-          ))}
+        ))}
       </View>
     );
   }

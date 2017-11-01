@@ -2,7 +2,6 @@ import React, { PropTypes, Component } from 'react'
 import { Text, View, Button } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as cardsActions from './redux/actions/cards'
 import * as rootStyles from './styles/root'
 import Upper from './stateless_components/Upper'
 import Lower from './stateless_components/Lower'
@@ -527,12 +526,12 @@ const mapStateToProps = () => {
   return {}
 }
 
-const mapDispatchToProps = dispatch => {
-  const actions = Object.assign({}, cardsActions)
+// const mapDispatchToProps = dispatch => {
+//   const actions = Object.assign({}, cardsActions)
 
-  return {
-    actions: bindActionCreators(actions, dispatch)
-  }
-}
+//   return {
+//     actions: bindActionCreators(actions, dispatch)
+//   }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Root)
+export default connect(mapStateToProps)(Root)

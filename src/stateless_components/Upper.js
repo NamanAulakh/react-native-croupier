@@ -6,7 +6,11 @@ import { setDropZoneValues } from '../redux/actions/market';
 import * as upperStyles from '../styles/upper';
 
 class Upper extends Component {
-  _setDropZoneValues(event) {
+  // constructor(props) {
+  //   super(props);
+  // }
+  setDropZoneValues(event) {
+    console.log(event, 'event');
     const dropZoneValues = event.nativeEvent.layout;
     this.props.setDropZoneValues(dropZoneValues);
   }
@@ -38,8 +42,9 @@ class Upper extends Component {
     console.log(market, '***********', deck);
     console.log(arr1, '***********');
     return (
-      <View style={container}>
+      <View style={container} onLayout={event => this.setDropZoneValues(event)}>
         <View
+
           style={{
             flex: 1,
             borderWidth: 1,
@@ -111,8 +116,9 @@ class Upper extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log(state);
   return {
-    dropZoneValues: state.market.dropZoneValues,
+    dropZoneValues: state.market.market.dropZoneValues,
   };
 }
 function mapDispatchToProps(dispatch) {
