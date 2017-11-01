@@ -48,15 +48,13 @@ const Upper = ({ market, deck }) => {
           <View key={index} style={{ flex: 1, borderWidth: 1 }}>
             <Text>{`H: ${Object.keys(item)[0]}`}</Text>
 
-            {item[parseInt(Object.keys(item)[0], 10)].cards.map((item1, index1) =>
+            {item[parseInt(Object.keys(item)[0], 10)].cards.map((item1, index1) => (
               // console.log(item1, '&&&&&&&');
 
-              (
-                <View key={index1}>
-                  <Text>{`${deck[item1].value} of ${deck[item1].suit}`}</Text>
-                </View>
-              )
-            )}
+              <View key={index1}>
+                <Text>{`${deck[item1].value} of ${deck[item1].suit}`}</Text>
+              </View>
+            ))}
           </View>
         ))}
       </View>
@@ -71,25 +69,21 @@ const Upper = ({ market, deck }) => {
           backgroundColor: 'green',
         }}
       >
-        {arr1.slice(round(arr1.length / 2), arr1.length).map((item, index) =>
+        {arr1.slice(round(arr1.length / 2), arr1.length).map((item, index) => (
           // console.log(item, '***********');
 
-          (
-            <View key={index} style={{ flex: 1, borderWidth: 1 }}>
-              <Text>{`H: ${Object.keys(item)[0]}`}</Text>
+          <View key={index} style={{ flex: 1, borderWidth: 1 }}>
+            <Text>{`H: ${Object.keys(item)[0]}`}</Text>
 
-              {item[parseInt(Object.keys(item)[0], 10)].cards.map((item1, index1) =>
-                // console.log('&&&&&&&');
+            {item[parseInt(Object.keys(item)[0], 10)].cards.map((item1, index1) => (
+              // console.log('&&&&&&&');
 
-                (
-                  <View key={index1}>
-                    <Text>{`${deck[item1].value} of ${deck[item1].suit}`}</Text>
-                  </View>
-                )
-              )}
-            </View>
-          )
-        )}
+              <View key={index1}>
+                <Text>{`${deck[item1].value} of ${deck[item1].suit}`}</Text>
+              </View>
+            ))}
+          </View>
+        ))}
       </View>
     </View>
   );
