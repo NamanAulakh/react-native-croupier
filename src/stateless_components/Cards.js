@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { Text, View, Image, PanResponder, Animated } from 'react-native';
 import { connect } from 'react-redux';
-import styles from './styles';
-import Images from '../../../themes/Images';
+import * as cardStyles from '../styles/cards';
+import Images from '../themes/Images';
 
 class Cards extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     // dropZoneValues: null,
+  //   };
+  // }
   isDropZone(gesture) {
     console.log(this.props.dropZoneValues, gesture);
     const dz = this.props.dropZoneValues;
@@ -44,7 +50,7 @@ class Cards extends Component {
   render() {
     const {
       container,
-    } = styles;
+    } = cardStyles.styles;
     const { playerCards } = this.props;
     console.log(playerCards, '........Cards......');
     if (playerCards.length === 0) return <Text>Cards</Text>;
@@ -62,7 +68,6 @@ class Cards extends Component {
 Cards.propTypes = {};
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     dropZoneValues: state.market.dropZoneValues,
   };

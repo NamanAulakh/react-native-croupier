@@ -1,9 +1,9 @@
 /* eslint-disable */
+// let temp = []
 import React, { Component } from 'react';
 import { View, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { find, isUndefined, differenceBy } from 'lodash';
-// import * as rootStyles from './styles/root';
 import Upper from './components/screen/Upper';
 import Lower from './components/screen/Lower';
 
