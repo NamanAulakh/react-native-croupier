@@ -2,17 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
 import { round } from 'lodash';
-import { setDropZoneValues } from '../../../redux/actions/market';
+import { setDropZoneValues } from 'app/redux/market/actions';
 import styles from './styles';
 
 const { container } = styles;
 class Upper extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      arr1: [],
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     arr1: [],
+  //   };
+  // }
   // componentWillMount() {
   //   const { market, deck } = this.props;
   //   const arr1 = [];
@@ -38,11 +38,10 @@ class Upper extends React.Component {
   //   });
   // }
   setDropZoneValues(event) {
-    console.log(event, 'event');
+    // console.log(event, 'event');
     const dropZoneValues = event.nativeEvent.layout;
     this.props.setDropZoneValues(dropZoneValues);
   }
-
 
   // console.log(market, '***********', deck);
   // console.log(arr1, '***********');
@@ -50,13 +49,15 @@ class Upper extends React.Component {
     const { deck, market } = this.props;
     // const { arr1 } = this.state;
 
+    console.log(market, '@@@@@@@@@@', deck)
+
     const arr1 = [];
     Object.keys(market).forEach((key) => {
       // when all the cards aren't unique in the market
       if (!market[key].isGhar && market[key].cards.length >= 2) {
         market[key].cards.forEach((id) => {
-          // console.log(' fdjsdfhjsd dhere......')
-          // console.log(deck[id]);
+          console.log('fdjsdfhjsd dhere......', deck)
+          console.log(deck[id]);
           arr1.push({ [key]: { cards: [deck[id].id] } });
         });
       } else {
@@ -130,9 +131,8 @@ class Upper extends React.Component {
   }
 }
 function mapStateToProps(state) {
-  console.log(state);
   return {
-    dropZoneValues: state.market.market.dropZoneValues,
+    dropZoneValues: state.market.dropZoneValues,
   };
 }
 function mapDispatchToProps(dispatch) {

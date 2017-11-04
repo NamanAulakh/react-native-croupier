@@ -1,6 +1,6 @@
 {
-  "extends": ["airbnb", "plugin:flowtype/recommended"],
-  "plugins": ["flowtype", "react", "import", "jsx-a11y", "react-native"],
+  "extends": ["airbnb"],
+  "plugins": ["react", "import", "jsx-a11y", "react-native"],
   "rules": {
     "camelcase": [2, { "properties": "always" }],
     "wrap-iife": [2, "inside"],
