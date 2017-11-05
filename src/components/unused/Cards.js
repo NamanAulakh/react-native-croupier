@@ -22,18 +22,18 @@ class Cards extends Component {
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
-      onPanResponderMove: Animated.event([null, {
-        dx: pan.x,
-        dy: pan.y,
-      }]),
+      onPanResponderMove: Animated.event([
+        null,
+        {
+          dx: pan.x,
+          dy: pan.y,
+        },
+      ]),
       onPanResponderRelease: (e, gesture) => {
         if (this.isDropZone(gesture)) {
           alert('dropped in drop zone');
         } else {
-          Animated.spring(
-            pan,
-            { toValue: { x: 0, y: 0 } }
-          ).start();
+          Animated.spring(pan, { toValue: { x: 0, y: 0 } }).start();
         }
       },
     });
@@ -48,19 +48,13 @@ class Cards extends Component {
     );
   }
   render() {
-    const {
-      container,
-    } = cardStyles.styles;
+    const { container } = cardStyles.styles;
     const { playerCards } = this.props;
     console.log(playerCards, '........Cards......');
     if (playerCards.length === 0) return <Text>Cards</Text>;
     return (
       <View style={container}>
-        {playerCards.map(item => (
-          <View key={Math.random()}>
-            {this._renderCards(item)}
-          </View>
-        ))}
+        {playerCards.map(item => <View key={Math.random()}>{this._renderCards(item)}</View>)}
       </View>
     );
   }

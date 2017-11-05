@@ -1,0 +1,1 @@
+export const TOGGLE_ALLOW_ALL = 'TOGGLE_ALLOW_ALL';

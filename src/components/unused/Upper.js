@@ -15,9 +15,7 @@ class Upper extends Component {
     this.props.setDropZoneValues(dropZoneValues);
   }
   render() {
-    const {
-      container,
-    } = upperStyles.styles;
+    const { container } = upperStyles.styles;
     const arr1 = [];
     const { market, deck } = this.props;
 
@@ -44,7 +42,6 @@ class Upper extends Component {
     return (
       <View style={container} onLayout={event => this.setDropZoneValues(event)}>
         <View
-
           style={{
             flex: 1,
             borderWidth: 1,
@@ -62,9 +59,7 @@ class Upper extends Component {
               <View key={index} style={{ flex: 1, borderWidth: 1 }}>
                 <Text>{`H: ${Object.keys(item)[0]}`}</Text>
 
-                {item[
-                  parseInt(Object.keys(item)[0])
-                ].cards.map((item1, index1) => {
+                {item[parseInt(Object.keys(item)[0])].cards.map((item1, index1) => {
                   console.log(item1, '&&&&&&&');
 
                   return (
@@ -95,9 +90,7 @@ class Upper extends Component {
               <View key={index} style={{ flex: 1, borderWidth: 1 }}>
                 <Text>{`H: ${Object.keys(item)[0]}`}</Text>
 
-                {item[
-                  parseInt(Object.keys(item)[0])
-                ].cards.map((item1, index1) => {
+                {item[parseInt(Object.keys(item)[0])].cards.map((item1, index1) => {
                   console.log('&&&&&&&');
 
                   return (
