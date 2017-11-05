@@ -2,7 +2,7 @@
   "extends": ["airbnb"],
   "plugins": ["react", "import", "jsx-a11y", "react-native"],
   "rules": {
-    "camelcase": [2, { "properties": "always" }],
+    "camelcase": 0,
     "wrap-iife": [2, "inside"],
     "new-cap": [2, { "capIsNewExceptions": [] }],
     "no-invalid-this": 2,
@@ -45,7 +45,9 @@
     "react-native/no-inline-styles": 0,
     "react-native/no-color-literals": 0,
     "spaced-comment": ["error", "always"],
-    "react/no-array-index-key": 0
+    "react/no-array-index-key": 0,
+    "no-mixed-operators": 0,
+    "no-nested-ternary": 0
   },
   "settings": {
     "import/resolver": {

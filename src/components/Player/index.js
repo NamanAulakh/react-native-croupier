@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import styles from './styles';
 import Cards from './Cards';
 
-const Lower = ({ diff, onSelectCard, playerCards }) => {
+const Lower = ({ diff, playerCards }) => {
   const { lower, playerCards: plStyles, player2 } = styles;
 
   if (diff) {
@@ -17,7 +17,7 @@ const Lower = ({ diff, onSelectCard, playerCards }) => {
   return (
     <View style={[lower, { backgroundColor: 'white' }]}>
       <View style={plStyles}>
-        <Cards onSelectCard={onSelectCard} playerCards={playerCards} />
+        <Cards playerCards={playerCards} />
       </View>
     </View>
   );

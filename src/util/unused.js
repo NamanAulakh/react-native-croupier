@@ -127,3 +127,8 @@
 // 	if (pakkaGharExists.length) return false;
 // 	return true;
 // }
+// fetchPlayerCard(playerCardID) {
+// 	const { deck } = this.props;
+//
+// 	return deck[playerCardID];
+// }

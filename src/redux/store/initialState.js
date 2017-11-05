@@ -10,6 +10,7 @@ export default {
   gaddi: {
     deck: [],
     cards: ['X'],
+    turnCount: 0,
   },
   player: { data: [] },
 };
